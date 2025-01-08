@@ -76,18 +76,36 @@
       border-bottom: none;
     }
 
-    .list-item a {
-      padding: 8px 16px;
-      background-color: #007bff;
+    .list-item span {
+      flex-grow: 1;
+    }
+
+    .open-pdf-button, .close-pdf-button {
+      display: inline-block;
+      padding: 10px 20px;
       color: white;
+      border: none;
       border-radius: 5px;
-      text-decoration: none;
       font-weight: bold;
+      margin: 10px 5px;
+      cursor: pointer;
       transition: background-color 0.3s ease;
     }
 
-    .list-item a:hover {
+    .open-pdf-button {
+      background-color: #007bff;
+    }
+
+    .open-pdf-button:hover {
       background-color: #0056b3;
+    }
+
+    .close-pdf-button {
+      background-color: #dc3545;
+    }
+
+    .close-pdf-button:hover {
+      background-color: #c82333;
     }
 
     iframe {
@@ -95,23 +113,6 @@
       height: 500px;
       border: 1px solid #ccc;
       margin-top: 20px;
-    }
-
-    .close-pdf-button {
-      display: block;
-      margin: 10px auto;
-      padding: 10px 20px;
-      background-color: #dc3545;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .close-pdf-button:hover {
-      background-color: #c82333;
     }
 
     @media (max-width: 768px) {
@@ -145,15 +146,15 @@
       <!-- List of PDFs -->
       <div class="list-item">
         <span>Question Bank PDF</span>
-        <a href="CSAQBSolutionsM1 (2).pdf" target="pdf-frame" onclick="showPDF(this.href)">open</a>
+        <a href="CSAQBSolutionsM1 (2).pdf" class="pdf-link">open</a>
       </div>
       <div class="list-item">
         <span>Module 1 Solutions</span>
-        <a href="module1.pdf" target="pdf-frame" onclick="showPDF(this.href)">open</a>
+        <a href="module1.pdf" class="pdf-link">open</a>
       </div>
       <div class="list-item">
         <span>Module 2 Solutions</span>
-        <a href="module2.pdf" target="pdf-frame" onclick="showPDF(this.href)">open</a>
+        <a href="module2.pdf" class="pdf-link">open</a>
       </div>
       <!-- Add more PDFs here -->
     </div>
@@ -161,11 +162,14 @@
     <!-- PDF iframe -->
     <iframe name="pdf-frame" src=""></iframe>
     
-    <!-- Close PDF Button -->
+    <!-- Open and Close PDF Buttons -->
+    <button class="open-pdf-button" onclick="openPDF()">Open PDF</button>
     <button class="close-pdf-button" onclick="closePDF()">Close PDF</button>
   </div>
 
   <script>
+    let currentPDF = ''; // Variable to store the current PDF URL
+
     // JavaScript to filter the list of PDFs based on search input
     function filterPDFs() {
       const searchInput = document.getElementById('search').value.toLowerCase();
@@ -182,18 +186,39 @@
       }
     }
 
-    // Function to show the PDF in the iframe
-    function showPDF(url) {
-      const pdfFrame = document.getElementsByName('pdf-frame')[0];
-      pdfFrame.src = url;
+    // Function to open the selected PDF
+    function openPDF() {
+      const selectedLink = document.querySelector('.pdf-link.active');
+      if (selectedLink) {
+        currentPDF = selectedLink.getAttribute('href'); // Get the href of the selected link
+        const pdfFrame = document.getElementsByName('pdf-frame')[0];
+        pdfFrame.src = currentPDF; // Set the iframe source
+      } else {
+        alert('Please select a PDF from the list.');
+      }
     }
 
     // Function to close the PDF
     function closePDF() {
       const pdfFrame = document.getElementsByName('pdf-frame')[0];
       pdfFrame.src = ''; // Clear the iframe source
+      currentPDF = ''; // Reset the current PDF
+      // Remove the active class from all links
+      const links = document.querySelectorAll('.pdf-link');
+      links.forEach(link => link.classList.remove('active'));
     }
+
+    // Event listener to handle selecting a PDF link
+    document.querySelectorAll('.pdf-link').forEach(link => {
+      link.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default link behavior
+        // Remove active class from all links
+        document.querySelectorAll('.pdf-link').forEach(l => l.classList.remove('active'));
+        // Add active class to the clicked link
+        this.classList.add('active');
+        currentPDF = this.getAttribute('href'); // Store the href of the clicked link
+      });
+    });
   </script>
 </body>
 </html>
-
