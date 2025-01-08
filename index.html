@@ -97,6 +97,23 @@
       margin-top: 20px;
     }
 
+    .close-pdf-button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .close-pdf-button:hover {
+      background-color: #c82333;
+    }
+
     @media (max-width: 768px) {
       .list-item {
         flex-direction: column;
@@ -113,7 +130,7 @@
   <!-- Navigation Bar -->
   <div class="navbar">
     <a href="index.html">Home</a>
-    <a href="cse.html">CSE</a> <!-- Link to CSE subjects page -->
+    <a href="cse.html">CSE</a>
     <a href="mechanical.html">Mechanical</a>
     <a href="civil.html">Civil</a>
   </div>
@@ -128,21 +145,24 @@
       <!-- List of PDFs -->
       <div class="list-item">
         <span>Question Bank PDF</span>
-        <a href="CSAQBSolutionsM1 (2).pdf" target="pdf-frame">open</a>
+        <a href="CSAQBSolutionsM1 (2).pdf" target="pdf-frame" onclick="showPDF(this.href)">open</a>
       </div>
       <div class="list-item">
         <span>Module 1 Solutions</span>
-        <a href="module1.pdf" target="pdf-frame">open</a>
+        <a href="module1.pdf" target="pdf-frame" onclick="showPDF(this.href)">open</a>
       </div>
       <div class="list-item">
         <span>Module 2 Solutions</span>
-        <a href="module2.pdf" target="pdf-frame">open</a>
+        <a href="module2.pdf" target="pdf-frame" onclick="showPDF(this.href)">open</a>
       </div>
       <!-- Add more PDFs here -->
     </div>
 
     <!-- PDF iframe -->
     <iframe name="pdf-frame" src=""></iframe>
+    
+    <!-- Close PDF Button -->
+    <button class="close-pdf-button" onclick="closePDF()">Close PDF</button>
   </div>
 
   <script>
@@ -161,6 +181,19 @@
         }
       }
     }
+
+    // Function to show the PDF in the iframe
+    function showPDF(url) {
+      const pdfFrame = document.getElementsByName('pdf-frame')[0];
+      pdfFrame.src = url;
+    }
+
+    // Function to close the PDF
+    function closePDF() {
+      const pdfFrame = document.getElementsByName('pdf-frame')[0];
+      pdfFrame.src = ''; // Clear the iframe source
+    }
   </script>
 </body>
 </html>
+
