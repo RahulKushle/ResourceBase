@@ -27,6 +27,36 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
+    .navbar {
+      display: flex;
+      justify-content: space-around;
+      background-color: #d19d9d;
+      padding: 10px 0;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      background-color: #b16c6c;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
     .list {
       margin: 20px 0;
       border-top: 2px solid #d19d9d;
@@ -47,14 +77,17 @@
     }
 
     .list-item a {
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
       text-decoration: none;
-      color: #007bff;
       font-weight: bold;
-      transition: color 0.3s ease;
+      transition: background-color 0.3s ease;
     }
 
     .list-item a:hover {
-      color: #0056b3;
+      background-color: #0056b3;
     }
 
     iframe {
@@ -63,20 +96,71 @@
       border: 1px solid #ccc;
       margin-top: 20px;
     }
+
+    @media (max-width: 768px) {
+      .list-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .list-item a {
+        margin-top: 10px;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <a href="index.html">Home</a>
+    <a href="cse.html">CSE</a> <!-- Link to CSE subjects page -->
+    <a href="mechanical.html">Mechanical</a>
+    <a href="civil.html">Civil</a>
+  </div>
+
   <div class="container">
     <h1>Question Bank</h1>
-    <div class="list">
+
+    <!-- Search Bar -->
+    <input type="text" id="search" class="search-bar" placeholder="Search PDFs..." onkeyup="filterPDFs()">
+
+    <div class="list" id="pdf-list">
       <!-- List of PDFs -->
       <div class="list-item">
         <span>Question Bank PDF</span>
         <a href="CSAQBSolutionsM1 (2).pdf" target="pdf-frame">open</a>
       </div>
+      <div class="list-item">
+        <span>Module 1 Solutions</span>
+        <a href="module1.pdf" target="pdf-frame">open</a>
+      </div>
+      <div class="list-item">
+        <span>Module 2 Solutions</span>
+        <a href="module2.pdf" target="pdf-frame">open</a>
+      </div>
+      <!-- Add more PDFs here -->
     </div>
+
     <!-- PDF iframe -->
     <iframe name="pdf-frame" src=""></iframe>
   </div>
+
+  <script>
+    // JavaScript to filter the list of PDFs based on search input
+    function filterPDFs() {
+      const searchInput = document.getElementById('search').value.toLowerCase();
+      const pdfList = document.getElementById('pdf-list');
+      const items = pdfList.getElementsByClassName('list-item');
+
+      for (const item of items) {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(searchInput)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      }
+    }
+  </script>
 </body>
 </html>
